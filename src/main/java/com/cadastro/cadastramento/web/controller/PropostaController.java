@@ -13,11 +13,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/pasteis")
 public class PropostaController {
 
-    private final PasteisService pasteisService;
-    private final PasteisRepository pasteisRepository;
 
-    public PropostaController(PasteisService pasteisService, PasteisRepository pasteisRepository) {
-        this.pasteisService = pasteisService;
-        this.pasteisRepository = pasteisRepository;
-    }
 }

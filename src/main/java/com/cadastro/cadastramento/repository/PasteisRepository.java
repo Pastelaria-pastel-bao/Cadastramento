@@ -5,6 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface PasteisRepository extends JpaRepository<Pasteis, Long> {
-    Optional<Pasteis> findByTitulo(String titulo);
 
 }
