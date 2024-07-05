@@ -1,14 +1,57 @@
 package com.cadastro.cadastramento.service;
 
+import com.cadastro.cadastramento.entity.Pasteis;
 import com.cadastro.cadastramento.repository.PasteisRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PasteisService {
 
+    private final PasteisRepository pasteisRepository;
 
+    @Transactional
+    public Optional<Pasteis> getById(Long id) {
+        return pasteisRepository.findById(id);
+    }
+
+    @Transactional
+    public Pasteis criar(Pasteis pasteis) {
+        return pasteisRepository.save(pasteis);
+    }
+
+    @Transactional
+    public Optional<Pasteis> getBySabor(String sabor) {
+        return pasteisRepository.findBySabor(sabor);
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        pasteisRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Optional<Pasteis> updatePasteisPartial(Long id, Pasteis updatedPasteis) {
+        return pasteisRepository.findById(id).map(pasteis -> {
+            if (updatedPasteis.getSabor() != null) {
+                pasteis.setSabor(updatedPasteis.getSabor());
+            }
+            if (updatedPasteis.getTamanho() != null) {
+                pasteis.setTamanho(updatedPasteis.getTamanho());
+            }
+            if (updatedPasteis.getDescricao() != null) {
+                pasteis.setDescricao(updatedPasteis.getDescricao());
+            }
+            if (updatedPasteis.getPreco() != null) {
+                pasteis.setPreco(updatedPasteis.getPreco());
+            }
+            return pasteisRepository.save(pasteis);
+        });
+    }
 }
