@@ -6,10 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 @Entity
 @Table(name= "pasteis")
 public class Pasteis {
@@ -24,7 +24,7 @@ public class Pasteis {
     private Tamanho tamanho;
 
     @Column(nullable = false)
-    private String descicao;
+    private String descricao;
 
     @Column(nullable = false)
     private String preco;
