@@ -1,5 +1,7 @@
 package com.cadastro.cadastramento.dto;
 
+import com.cadastro.cadastramento.entity.Pasteis.Tamanho;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,4 @@ public class PastelCriarDto {
 
     private String preco;
 
-    public enum Tamanho {
-        PEQUENO, MEDIO, GRANDE
-    }
 }

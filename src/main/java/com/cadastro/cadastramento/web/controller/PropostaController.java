@@ -42,7 +42,7 @@ public class PropostaController {
     }
 
     @PatchMapping("/id/{id}")
-    public ResponseEntity<Pasteis> updatePasteisPartial(@PathVariable Long id, @RequestBody Pasteis updatedPasteis) {
+    public ResponseEntity<Pasteis> updatePasteisPartial(@PathVariable Long id, @RequestBody PastelCriarDto updatedPasteis) {
         Optional<Pasteis> pasteis = pasteisService.updatePasteisPartial(id, updatedPasteis);
         return pasteis.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

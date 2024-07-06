@@ -43,7 +43,7 @@ public class PasteisService {
     }
 
     @Transactional
-    public Optional<Pasteis> updatePasteisPartial(Long id, Pasteis updatedPasteis) {
+    public Optional<Pasteis> updatePasteisPartial(Long id, PastelCriarDto updatedPasteis) {
         return pasteisRepository.findById(id).map(pasteis -> {
             if (updatedPasteis.getSabor() != null) {
                 pasteis.setSabor(updatedPasteis.getSabor());
