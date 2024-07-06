@@ -16,6 +16,6 @@ public class PastelCriarDto {
 
     private String descricao;
 
-    private String preco;
+    private Double preco;
 
 }
