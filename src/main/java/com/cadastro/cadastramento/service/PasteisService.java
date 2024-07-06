@@ -1,9 +1,12 @@
 package com.cadastro.cadastramento.service;
 
+import com.cadastro.cadastramento.dto.PastelCriarDto;
 import com.cadastro.cadastramento.entity.Pasteis;
 import com.cadastro.cadastramento.repository.PasteisRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +25,11 @@ public class PasteisService {
     }
 
     @Transactional
-    public Pasteis criar(Pasteis pasteis) {
-        return pasteisRepository.save(pasteis);
+    public Pasteis criar(PastelCriarDto pasteisDto) {
+        DozerBeanMapper dozer = new DozerBeanMapper();
+        Pasteis p = dozer.map(pasteisDto, Pasteis.class);
+
+        return pasteisRepository.save(p);
     }
 
     @Transactional

@@ -1,5 +1,6 @@
 package com.cadastro.cadastramento.web.controller;
 
+import com.cadastro.cadastramento.dto.PastelCriarDto;
 import com.cadastro.cadastramento.entity.Pasteis;
 import com.cadastro.cadastramento.service.PasteisService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class PropostaController {
     private final PasteisService pasteisService;
 
     @PostMapping
-    public ResponseEntity<Pasteis> criar(@RequestBody Pasteis p) {
+    public ResponseEntity<Pasteis> criar(@RequestBody PastelCriarDto p) {
         Pasteis pasteis = pasteisService.criar(p);
         return ResponseEntity.status(HttpStatus.CREATED).body(pasteis);
     }
