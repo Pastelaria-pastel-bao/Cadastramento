@@ -2,24 +2,26 @@ package com.cadastro.cadastramento.web.controller;
 
 import com.cadastro.cadastramento.entity.Pasteis;
 import com.cadastro.cadastramento.service.PasteisService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/pasteis")
-public class PropostaController {
+@Validated
+public class PasteisController {
 
     private final PasteisService pasteisService;
 
     @PostMapping
-    public ResponseEntity<Pasteis> criar(@RequestBody Pasteis p) {
+    public ResponseEntity<Pasteis> criar(@Valid @RequestBody Pasteis p) {
         Pasteis pasteis = pasteisService.criar(p);
         return ResponseEntity.status(HttpStatus.CREATED).body(pasteis);
     }
