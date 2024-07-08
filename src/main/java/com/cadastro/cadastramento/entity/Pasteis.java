@@ -27,7 +27,7 @@ public class Pasteis {
     private String descricao;
 
     @Column(nullable = false)
-    private String preco;
+    private Double preco;
 
     public enum Tamanho {
         PEQUENO, MEDIO, GRANDE
