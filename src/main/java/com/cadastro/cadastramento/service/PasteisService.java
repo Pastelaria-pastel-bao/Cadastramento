@@ -108,7 +108,6 @@ public class PasteisService {
                     && pasteisRepository.findBySabor(updatedPasteis.getSabor()).isPresent()) {
                 throw new PastelDuplicadoException("Pastel com este sabor já existe");
             }
-
             return existingPasteis.map(pasteis -> {
                 if (updatedPasteis.getSabor() != null) {
                     pasteis.setSabor(updatedPasteis.getSabor());
