@@ -6,19 +6,16 @@ import static com.cadastro.cadastramento.commum.PasteisConstants.pastelEmpty;
 import static com.cadastro.cadastramento.commum.PasteisConstants.pastelNull;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,7 +25,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.cadastro.cadastramento.entity.Pasteis;
 import com.cadastro.cadastramento.entity.Pasteis.Tamanho;
 import com.cadastro.cadastramento.exceptions.PastelNaoEncontradoException;
-import com.cadastro.cadastramento.repository.PasteisRepository;
 import com.cadastro.cadastramento.service.PasteisService;
 import com.cadastro.cadastramento.web.controller.PasteisController;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -45,9 +41,6 @@ public class PasteisControllerTest {
 
     @MockBean
     private PasteisService service;
-
-    @MockBean
-    PasteisRepository repository;
 
     @Test
     public void criarPastel_WithValidDate_ReturnCreated() throws JsonProcessingException, Exception{
