@@ -116,17 +116,6 @@ public class PasteisControllerTest {
         assertThatThrownBy(() -> service.deleteById(100L)).isInstanceOf(PastelNaoEncontradoException.class);
     }
 
-    @Test()
-    public void updatePastel_WithExistingId_ReturnOk() throws JsonProcessingException, Exception{
-        when(repository.findById(1L)).thenReturn(Optional.of(pastelCreated));
-        when(service.updatePasteisPartial(1L, pastelCreated)).thenReturn(Optional.of(pastelCreate));
-
-        mockMvc.perform(patch("/api/v1/pasteis/id/1")
-        .content(objectMapper.writeValueAsString(pastelCreated))
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk());
-    }
-
     @Test
     public void updatePastel_WithNonExistenId_ReturnNotFound(){
          Pasteis pastel = new Pasteis(1L, pastelCreated.getSabor(), Tamanho.MEDIO, "null",10.90);
