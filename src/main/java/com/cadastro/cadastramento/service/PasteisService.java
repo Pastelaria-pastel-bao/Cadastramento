@@ -85,9 +85,24 @@ public class PasteisService {
             if (id <= 0) {
                 throw new InvalidInputException("ID inválido");
             }
-            if (!pasteisRepository.existsById(id)) {
-                throw new PastelNaoEncontradoException("Pastel não encontrado");
+            Pasteis pasteis = pasteisRepository.findById(id)
+                    .orElseThrow(() -> new PastelNaoEncontradoException("Pastel não encontrado"));
+
+            // Verifica e exclui a imagem associada
+            String imageUrl = pasteis.getImagemUrl();
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+                String fileName = imageUrl.replace("/images/", "");
+                Path imagePath = Paths.get("uploads/images/" + fileName);
+
+                try {
+                    Files.deleteIfExists(imagePath);
+                } catch (IOException e) {
+                    log.error("Erro ao deletar o arquivo: {}", e.getMessage());
+                    throw new DatabaseException("Erro ao deletar a imagem");
+                }
             }
+
+            // Exclui o pastel do banco de dados
             pasteisRepository.deleteById(id);
         } catch (PastelNaoEncontradoException | InvalidInputException ex) {
             log.error("Erro ao deletar pastel por ID: {}", id, ex);
@@ -97,6 +112,7 @@ public class PasteisService {
             throw new DatabaseException("Erro no banco de dados");
         }
     }
+
 
 
     @Transactional
