@@ -111,7 +111,7 @@ public class PasteisControllerTest {
 
     @Test
     public void updatePastel_WithNonExistenId_ReturnNotFound(){
-         Pasteis pastel = new Pasteis(1L, pastelCreated.getSabor(), Tamanho.MEDIO, "null",10.90);
+         Pasteis pastel = new Pasteis(1L, pastelCreated.getSabor(), Tamanho.MEDIO, "null",10.90, null);
          doThrow(new PastelNaoEncontradoException("Pastel não encontrado")).when(service).updatePasteisPartial(1L, pastel);
 
          assertThatThrownBy(() -> service.updatePasteisPartial(1L, pastel)).isInstanceOf(PastelNaoEncontradoException.class);
