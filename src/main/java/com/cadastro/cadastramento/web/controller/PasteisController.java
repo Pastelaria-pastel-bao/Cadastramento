@@ -16,6 +16,7 @@ import com.cadastro.cadastramento.service.PasteisService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -63,4 +64,25 @@ public class PasteisController {
         Page<Pasteis> pasteisPage = pasteisService.listarPasteis(pageable);
         return ResponseEntity.ok(pasteisPage);
     }
+
+    @PostMapping("/upload/{id}")
+    public ResponseEntity<String> uploadImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        try {
+            String imageUrl = pasteisService.saveImage(id, file);
+            return ResponseEntity.ok(imageUrl);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao fazer upload da imagem");
+        }
+    }
+
+    @DeleteMapping("/delete-image/{id}")
+    public ResponseEntity<String> deleteImage(@PathVariable Long id) {
+        try {
+            pasteisService.deleteImage(id);
+            return ResponseEntity.ok("Imagem deletada com sucesso");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar a imagem");
+        }
+    }
+
 }
