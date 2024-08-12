@@ -37,6 +37,10 @@ public class Pasteis {
     @Column(nullable = false)
     private Double preco;
 
+    @Column(name = "imagem_url")
+    private String imagemUrl;
+
+
     public enum Tamanho {
         PEQUENO, MEDIO, GRANDE
     }

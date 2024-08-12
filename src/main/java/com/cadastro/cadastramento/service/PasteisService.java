@@ -8,10 +8,19 @@ import com.cadastro.cadastramento.exceptions.PastelNaoEncontradoException;
 import com.cadastro.cadastramento.repository.PasteisRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -90,7 +99,15 @@ public class PasteisService {
     }
 
 
-
+    @Transactional
+    public Page<Pasteis> listarPasteis(Pageable pageable) {
+        try {
+            return pasteisRepository.findAll(pageable);
+        } catch (Exception ex) {
+            log.error("Erro inesperado ao listar pastéis", ex);
+            throw new DatabaseException("Erro no banco de dados");
+        }
+    }
 
     @Transactional
     public Optional<Pasteis> updatePasteisPartial(Long id, Pasteis updatedPasteis) {
@@ -137,6 +154,63 @@ public class PasteisService {
             throw new DatabaseException("Erro no banco de dados"); // Lança uma nova exceção de banco de dados
         }
     }
+
+
+    @Transactional
+    public String saveImage(Long id, MultipartFile file) throws IOException {
+        Pasteis pasteis = pasteisRepository.findById(id)
+                .orElseThrow(() -> new PastelNaoEncontradoException("Pastel não encontrado"));
+
+        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+        Path imagePath = Paths.get("uploads/images/" + fileName);
+
+        try {
+
+            File directory = new File(imagePath.getParent().toString());
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            Files.write(imagePath, file.getBytes());
+        } catch (IOException e) {
+
+            log.error("Erro ao escrever o arquivo: {}", e.getMessage());
+            throw e;
+        }
+
+        pasteis.setImagemUrl("/images/" + fileName);
+        pasteisRepository.save(pasteis);
+
+        return pasteis.getImagemUrl();
+    }
+
+
+    @Transactional
+    public void deleteImage(Long id) throws IOException {
+        Pasteis pasteis = pasteisRepository.findById(id)
+                .orElseThrow(() -> new PastelNaoEncontradoException("Pastel não encontrado"));
+
+
+        String imageUrl = pasteis.getImagemUrl();
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+
+            String fileName = imageUrl.replace("/images/", "");
+            Path imagePath = Paths.get("uploads/images/" + fileName);
+
+
+            try {
+                Files.deleteIfExists(imagePath);
+            } catch (IOException e) {
+                log.error("Erro ao deletar o arquivo: {}", e.getMessage());
+                throw e;
+            }
+
+            pasteis.setImagemUrl(null);
+            pasteisRepository.save(pasteis);
+        }
+    }
+
+
 }
 
 
