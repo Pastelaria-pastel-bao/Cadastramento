@@ -8,6 +8,8 @@ import com.cadastro.cadastramento.exceptions.PastelNaoEncontradoException;
 import com.cadastro.cadastramento.repository.PasteisRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,7 +92,15 @@ public class PasteisService {
     }
 
 
-
+    @Transactional
+    public Page<Pasteis> listarPasteis(Pageable pageable) {
+        try {
+            return pasteisRepository.findAll(pageable);
+        } catch (Exception ex) {
+            log.error("Erro inesperado ao listar pastéis", ex);
+            throw new DatabaseException("Erro no banco de dados");
+        }
+    }
 
     @Transactional
     public Optional<Pasteis> updatePasteisPartial(Long id, Pasteis updatedPasteis) {
