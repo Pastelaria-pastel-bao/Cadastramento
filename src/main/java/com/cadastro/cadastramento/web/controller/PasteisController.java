@@ -1,5 +1,6 @@
 package com.cadastro.cadastramento.web.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -157,5 +158,15 @@ public class PasteisController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar a imagem");
         }
     }
+
+
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Pasteis>> searchProducts(@RequestParam("q") String query) {
+        List<Pasteis> produtos = pasteisService.buscarPasteis(query);
+        return ResponseEntity.ok(produtos);
+    }
+
+
 
 }

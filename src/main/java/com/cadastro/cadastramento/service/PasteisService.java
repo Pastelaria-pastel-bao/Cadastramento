@@ -8,6 +8,7 @@ import com.cadastro.cadastramento.exceptions.PastelNaoEncontradoException;
 import com.cadastro.cadastramento.repository.PasteisRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,6 +29,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PasteisService {
 
+@Autowired
     private final PasteisRepository pasteisRepository;
 
     @Transactional
@@ -227,6 +230,13 @@ public class PasteisService {
             pasteisRepository.save(pasteis);
         }
     }
+
+
+    public List<Pasteis> buscarPasteis(String keyword) {
+        return pasteisRepository.buscarPasteis(keyword);
+    }
+
+
 
 
 }
