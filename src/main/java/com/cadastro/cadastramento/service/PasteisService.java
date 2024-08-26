@@ -88,7 +88,7 @@ public class PasteisService {
             Pasteis pasteis = pasteisRepository.findById(id)
                     .orElseThrow(() -> new PastelNaoEncontradoException("Pastel não encontrado"));
 
-            // Verifica e exclui a imagem associada
+
             String imageUrl = pasteis.getImagemUrl();
             if (imageUrl != null && !imageUrl.isEmpty()) {
                 String fileName = imageUrl.replace("/images/", "");
@@ -102,7 +102,7 @@ public class PasteisService {
                 }
             }
 
-            // Exclui o pastel do banco de dados
+
             pasteisRepository.deleteById(id);
         } catch (PastelNaoEncontradoException | InvalidInputException ex) {
             log.error("Erro ao deletar pastel por ID: {}", id, ex);
@@ -124,6 +124,8 @@ public class PasteisService {
             throw new DatabaseException("Erro no banco de dados");
         }
     }
+
+
 
     @Transactional
     public Optional<Pasteis> updatePasteisPartial(Long id, Pasteis updatedPasteis) {

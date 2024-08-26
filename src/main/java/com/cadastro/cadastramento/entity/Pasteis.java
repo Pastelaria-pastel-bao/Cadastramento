@@ -29,6 +29,10 @@ public class Pasteis {
     @Enumerated(EnumType.STRING)
     private Tamanho tamanho;
 
+    @NotNull(message = "A Categoria não pode ser nulo")
+    @Enumerated(EnumType.STRING)
+    private Categoria categoria;
+
     @NotBlank(message = "A descrição não pode ser em branco")
     @Column(nullable = false)
     private String descricao;
@@ -43,5 +47,9 @@ public class Pasteis {
 
     public enum Tamanho {
         PEQUENO, MEDIO, GRANDE
+    }
+
+    public enum Categoria {
+        SALGADO, DOCE
     }
 }
